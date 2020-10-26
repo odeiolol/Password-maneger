@@ -1,40 +1,80 @@
-while True:
-    number=0
-    #Loggin
-    print("Chose one")
-    initialQ=input('Loggins or Register?')
+import PySimpleGUI as sg    
+import time
+rr1=[]
+layout = [  [sg.Text("Loggin or register ?            ")],
+            [sg.Button('Loggin         ')],
+            [sg.Button('Register       ')] ]
+            
+window = sg.Window('Gerenciador de senhas', layout)      
+event, values = window.read()
 
-    #Register
-    if initialQ == 'register':
-        platformR=input("Which platform is it for ? ")
-        logginR=input("What is your loggin? ")
-        passwordR=input("What password do you wanna use? ")
+#Register
+if event == 'Register       ':
+    window.close()
 
-        openfile=(logginR+".txt")
-        file=open(openfile,'x')
-        #processing data
+    
+    layout = [  [sg.Text("Which platform is it for ? ")],    
+                [sg.Input()],
+                [sg.Text("What is your loggin? ")],
+                [sg.Input()],
+                [sg.Text("What's your password ? ")],
+                [sg.Input()],
+                [sg.Button('registrar')] ]
 
-        data="loggin:"+logginR+','+" Password:"+passwordR+','+" Platform:"+platformR
-        file.write(data)
-        print("Registered with success!")
-    else:
-        number+=1
+    window = sg.Window('Gerenciador de senhas', layout)      
+    event, values = window.read()   
 
-    #loggin
-    if initialQ =="loggins":
-        l1=input('loggin: ')
-        l2=input('key: ')
-        ll1=l1+'.txt'
+   
 
-        if l2 == 'café':
-            try:
-                r1=open(ll1,'r')
-                for i in r1:
-                    print(i)
-            except:
-                print("Your loggin was not found")
-    else:
-        if number== 1:
-            print("ESCREVE CERTO CEQUELADO")
+    openfile=(values[1]+".txt")
+    file=open(openfile,'x')
+
+
+    data="Platform:"+values[0]+"  loggin:"+values[1]+"  Password:"+values[2]
+    file.write(data)
+    time.sleep(1)
+    file.close()
+    window.close()
+
+
+#loggin
+if event == 'Loggin         ':
+    
+    layout = [  [sg.Text("What's your loggin ? ")],    
+                [sg.Input()],
+                [sg.Text("What's your MAIN password ? ")],
+                [sg.Input()],
+                [sg.Button('Loggin')] ]
+
+
+    window = sg.Window('Gerenciador de senhas', layout)      
+    event, values = window.read()
+    l1=values[0] 
+    l2=values[1]     
+                
+    window.close()
+
+    ll1=l1+'.txt'
+
+    if l2 == 'café':
+        try:
+            r1=open(ll1,'r')
+            for i in r1:
+                rr1.append(i)
+            
+            layout =[  
+            [sg.Text("This is your data :D  :")],
+            [sg.Text(rr1)],
+            [sg.Button('Quit')] ]
+            
+            window = sg.Window('Gerenciador de senhas', layout)      
+            event, values = window.read()
+    
+            window.close()
+
+
+        except:
+            print("Your loggin was not found")
+
 
 
